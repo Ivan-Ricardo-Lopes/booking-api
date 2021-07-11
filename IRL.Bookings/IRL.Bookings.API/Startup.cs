@@ -1,5 +1,4 @@
 using AutoMapper;
-using IRL.Booking.API.AutoMapper;
 using IRL.Booking.API.Middlewares;
 using IRL.Bookings.Application.AutoMapper;
 using IRL.Bookings.Application.Commands.CancelBooking;
@@ -36,7 +35,6 @@ namespace IRL.Booking.API
 
             var mapperConfig = new MapperConfiguration(cfg =>
             {
-                cfg.AddProfile<APIMapperProfile>();
                 cfg.AddProfile<ApplicationMapperProfile>();
             });
 

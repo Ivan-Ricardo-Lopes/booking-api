@@ -40,6 +40,7 @@ namespace IRL.Bookings.Infra.Databases.EntityFramework.Repositories
 
         public Task Update(BookingDbModel model)
         {
+            _db.Entry(model).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
             return Task.FromResult(_db.Update(model));
         }
 

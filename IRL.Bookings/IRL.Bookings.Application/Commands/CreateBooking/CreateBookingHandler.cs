@@ -31,7 +31,6 @@ namespace IRL.Bookings.Application.Commands.CreateBooking
             this._mapper = mapper;
             this._bookingRepository = bookingRepository;
             this._roomRepository = roomRepository;
-            ;
         }
 
         public async Task<BaseResult<CreateBookingResult>> Handle(CreateBookingCommand command, CancellationToken cancellationToken)

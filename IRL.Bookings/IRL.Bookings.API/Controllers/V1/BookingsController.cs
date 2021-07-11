@@ -1,8 +1,4 @@
 ﻿using AutoMapper;
-using IRL.Booking.API.Transport.Bookings.Cancel;
-using IRL.Booking.API.Transport.Bookings.Create;
-using IRL.Booking.API.Transport.Bookings.GetAll;
-using IRL.Booking.API.Transport.Bookings.Update;
 using IRL.Bookings.Application.Commands.CancelBooking;
 using IRL.Bookings.Application.Commands.CreateBooking;
 using IRL.Bookings.Application.Commands.UpdateBooking;
@@ -43,15 +39,13 @@ namespace IRL.Booking.API.Controllers.V1
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(GetBookingsResult))]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<IActionResult> Get([FromQuery] GetAllBookingModel model, CancellationToken cancellationToken)
+        public async Task<IActionResult> Get([FromQuery] GetBookingsQuery model, CancellationToken cancellationToken)
         {
-            var output = await _mediator.Send(_mapper.Map<GetBookingsQuery>(model), cancellationToken);
+            var output = await _mediator.Send(model, cancellationToken);
 
             if (output.IsValid)
             {
-                var response = _mapper.Map<GetAllBookingResponse>(output.Payload);
-
-                return Ok(response);
+                return Ok(output.Payload);
             }
 
             return BadRequest(output.Errors);
@@ -66,18 +60,16 @@ namespace IRL.Booking.API.Controllers.V1
         /// <param name="cancellationToken"></param>
         /// <returns>Booking confirmation.</returns>
         [HttpPost]
-        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(CreateBookingResponse))]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(CreateBookingResult))]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<IActionResult> Post([FromQuery] CreateBookingModel model, CancellationToken cancellationToken)
+        public async Task<IActionResult> Post([FromQuery] CreateBookingCommand model, CancellationToken cancellationToken)
         {
-            var output = await _mediator.Send(_mapper.Map<CreateBookingCommand>(model), cancellationToken);
+            var output = await _mediator.Send(model, cancellationToken);
 
             if (output.IsValid)
             {
-                var response = _mapper.Map<CreateBookingResponse>(output.Payload);
-
-                return Ok(response);
+                return Ok(output.Payload);
             }
 
             return BadRequest(new { errors = output.Errors });
@@ -92,21 +84,19 @@ namespace IRL.Booking.API.Controllers.V1
         /// <param name="cancellationToken"></param>
         /// <returns>Update confirmation.</returns>
         [HttpPut]
-        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(UpdateBookingResponse))]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(UpdateBookingResult))]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<IActionResult> Put([FromQuery] UpdateBookingModel model, CancellationToken cancellationToken)
+        public async Task<IActionResult> Put([FromQuery] UpdateBookingCommand model, CancellationToken cancellationToken)
         {
             var output = await _mediator.Send(_mapper.Map<UpdateBookingCommand>(model), cancellationToken);
 
             if (output.IsValid)
             {
-                var response = _mapper.Map<UpdateBookingResponse>(output.Payload);
-
-                return Ok(response);
+                return Ok(output.Payload);
             }
 
-            return BadRequest(output.Errors);
+            return BadRequest(output.Payload);
         }
 
         /// <summary>
@@ -118,18 +108,16 @@ namespace IRL.Booking.API.Controllers.V1
         /// <param name="cancellationToken"></param>
         /// <returns>Cancel confirmation.</returns>
         [HttpDelete]
-        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(CancelBookingResponse))]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(CancelBookingResult))]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<IActionResult> Cancel([FromQuery] CancelBookingModel model, CancellationToken cancellationToken)
+        public async Task<IActionResult> Cancel([FromQuery] CancelBookingCommand model, CancellationToken cancellationToken)
         {
-            var output = await _mediator.Send(_mapper.Map<CancelBookingCommand>(model), cancellationToken);
+            var output = await _mediator.Send(model, cancellationToken);
 
             if (output.IsValid)
             {
-                var response = _mapper.Map<CancelBookingResponse>(output.Payload);
-
-                return Ok(response);
+                return Ok(output.Payload);
             }
 
             return BadRequest(output.Errors);

@@ -11,6 +11,8 @@ namespace IRL.Bookings.Domain.Bookings.Entities
             Id = id;
             RoomId = roomId;
             CustomerInfo = customerInfo;
+            FromDate = fromDate;
+            ToDate = toDate;
         }
 
         public DateTime FromDate { get; private set; }
@@ -39,6 +41,11 @@ namespace IRL.Bookings.Domain.Bookings.Entities
             //}
 
             //Schedule = new Schedule(startDate, endDate);
+        }
+
+        public void ChangeCustomerName(string customerName)
+        {
+            throw new NotImplementedException();
         }
     }
 }
