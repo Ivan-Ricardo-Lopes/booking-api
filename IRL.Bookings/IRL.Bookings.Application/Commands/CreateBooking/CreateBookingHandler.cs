@@ -2,7 +2,6 @@
 using IRL.Bookings.Application.Events;
 using IRL.Bookings.Application.Shared;
 using IRL.Bookings.Domain.Bookings.Entities;
-using IRL.Bookings.Domain.Bookings.ValueObjects;
 using IRL.Bookings.Infra.DatabaseModels;
 using IRL.Bookings.Infra.Repositories;
 using MediatR;
@@ -55,7 +54,8 @@ namespace IRL.Bookings.Application.Commands.CreateBooking
             if (await _bookingRepository.ExistsBetweenDates(command.RoomId.ToString(), command.FromDate, command.ToDate))
                 output.AddError("RoomId", "This room is unavailable on this date");
 
-            var booking = new Booking(Guid.NewGuid(), command.FromDate, command.ToDate, command.RoomId, new CustomerInfo(command.CustomerName));
+            var booking = new Booking(Guid.NewGuid(), command.FromDate, command.ToDate, command.RoomId, command.CustomerName);
+
             output.AddErrors(booking.ValidationResult);
 
             if (!output.IsValid)

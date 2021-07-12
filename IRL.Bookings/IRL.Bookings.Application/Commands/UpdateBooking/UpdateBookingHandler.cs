@@ -60,9 +60,6 @@ namespace IRL.Bookings.Application.Commands.UpdateBooking
 
             var booking = _mapper.Map<Booking>(bookingDbModel);
 
-            booking.ModifySchedule(command.FromDate, command.ToDate);
-            booking.ChangeCustomerName(command.CustomerName);
-
             output.AddErrors(booking.ValidationResult);
 
             if (!output.IsValid)
