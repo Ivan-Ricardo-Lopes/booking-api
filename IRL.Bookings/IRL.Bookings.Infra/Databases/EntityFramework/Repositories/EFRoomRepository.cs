@@ -1,4 +1,5 @@
-﻿using IRL.Bookings.Infra.Repositories;
+﻿using IRL.Bookings.Infra.DatabaseModels;
+using IRL.Bookings.Infra.Repositories;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -16,6 +17,11 @@ namespace IRL.Bookings.Infra.Databases.EntityFramework.Repositories
         public Task<bool> Exists(string roomId)
         {
             return Task.FromResult(this._db.Rooms.Any(x => x.Id == roomId));
+        }
+
+        public Task<IQueryable<RoomDbModel>> GetAll()
+        {
+            return Task.FromResult(_db.Rooms.AsQueryable());
         }
     }
 }

@@ -15,12 +15,13 @@ namespace IRL.Bookings.Infra.Databases.EntityFramework.Repositories
             this._db = db;
         }
 
-        public Task<bool> ExistsBetweenDates(string roomId, DateTime fromDate, DateTime toDate)
+        public Task<bool> ExistsBetweenDates(string roomId, DateTime fromDate, DateTime toDate, string notIncludingId = null)
         {
             return Task.FromResult(_db.Bookings
-           .Any(x => x.RoomId == roomId &&
-           ((fromDate >= x.FromDate && fromDate <= x.ToDate) ||
-            (toDate >= x.FromDate && toDate <= x.ToDate))));
+                .Where(x => x.Id != notIncludingId)
+                .Where(x => x.RoomId == roomId)
+                .Any(x => ((fromDate >= x.FromDate && fromDate <= x.ToDate) ||
+                (toDate >= x.FromDate && toDate <= x.ToDate))));
         }
 
         public Task<IQueryable<BookingDbModel>> GetAll()

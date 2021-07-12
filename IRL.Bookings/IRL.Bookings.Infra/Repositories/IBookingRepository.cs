@@ -11,7 +11,7 @@ namespace IRL.Bookings.Infra.Repositories
 
         Task<IQueryable<BookingDbModel>> GetAll();
 
-        Task<bool> ExistsBetweenDates(string roomId, DateTime fromDate, DateTime toDate);
+        Task<bool> ExistsBetweenDates(string roomId, DateTime fromDate, DateTime toDate, string notIncludingId = null);
 
         Task Add(BookingDbModel model);
 

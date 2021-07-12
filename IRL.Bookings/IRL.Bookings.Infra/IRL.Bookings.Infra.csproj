@@ -5,7 +5,9 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Databases\EntityFramework\EFmodels\" />
+    <Compile Remove="Databases\EntityFramework\EFmodels\**" />
+    <EmbeddedResource Remove="Databases\EntityFramework\EFmodels\**" />
+    <None Remove="Databases\EntityFramework\EFmodels\**" />
   </ItemGroup>
 
   <ItemGroup>
