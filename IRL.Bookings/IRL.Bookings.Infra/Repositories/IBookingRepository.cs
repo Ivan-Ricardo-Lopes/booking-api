@@ -9,7 +9,7 @@ namespace IRL.Bookings.Infra.Repositories
     {
         Task<BookingDbModel> GetById(string id);
 
-        Task<IQueryable<BookingDbModel>> GetAll();
+        Task<IQueryable<BookingDbModel>> GetAll(string roomId = null);
 
         Task<bool> ExistsBetweenDates(string roomId, DateTime fromDate, DateTime toDate, string notIncludingId = null);
 
@@ -19,4 +19,5 @@ namespace IRL.Bookings.Infra.Repositories
 
         Task SaveChanges();
     }
+    
 }

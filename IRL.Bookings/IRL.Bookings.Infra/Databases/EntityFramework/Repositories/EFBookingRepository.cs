@@ -24,9 +24,13 @@ namespace IRL.Bookings.Infra.Databases.EntityFramework.Repositories
                 (toDate >= x.FromDate && toDate <= x.ToDate))));
         }
 
-        public Task<IQueryable<BookingDbModel>> GetAll()
+        public Task<IQueryable<BookingDbModel>> GetAll(string roomId = null)
         {
-            return Task.FromResult(_db.Bookings.AsQueryable());
+            var result = _db.Bookings
+                .Where(x => roomId != null ? x.RoomId == roomId : true)
+                .AsQueryable();
+
+            return Task.FromResult(result);
         }
 
         public async Task<BookingDbModel> GetById(string id)
