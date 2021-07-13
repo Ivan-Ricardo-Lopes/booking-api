@@ -4,7 +4,7 @@ using System;
 
 namespace IRL.Bookings.Application.Commands.UpdateBooking
 {
-    public class UpdateBookingCommand : IRequest<BaseResult<UpdateBookingResult>>
+    public class UpdateBookingCommand : IUpdateBookingCommand, IRequest<BaseResult<UpdateBookingResult>>
     {
         public Guid Id { get; set; }
         public Guid RoomId { get; set; }

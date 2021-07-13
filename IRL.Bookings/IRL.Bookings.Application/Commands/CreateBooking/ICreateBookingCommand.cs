@@ -1,10 +1,12 @@
-﻿using IRL.Bookings.Application.Shared;
-using MediatR;
-using System;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
 namespace IRL.Bookings.Application.Commands.CreateBooking
 {
-    public class CreateBookingCommand : ICreateBookingCommand, IRequest<BaseResult<CreateBookingResult>>
+    public interface ICreateBookingCommand
     {
         public Guid RoomId { get; set; }
         public string CustomerName { get; set; }

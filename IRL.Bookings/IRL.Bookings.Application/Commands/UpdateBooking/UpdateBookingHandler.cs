@@ -40,8 +40,12 @@ namespace IRL.Bookings.Application.Commands.UpdateBooking
             var inputValidationResult = _validator.Validate(command);
             output.AddErrors(inputValidationResult);
 
-            if (!await _roomRepository.Exists(command.RoomId.ToString()))
-                output.AddError("RoomId", $"Room not found. id: {command.RoomId}");
+            if(command.RoomId != null)
+            {
+                if (!await _roomRepository.Exists(command.RoomId.ToString()))
+                    output.AddError("RoomId", $"Room not found. id: {command.RoomId}");
+            }
+            
 
             var bookingDbModel = await _bookingRepository.GetById(command.Id.ToString());
 
@@ -72,7 +76,6 @@ namespace IRL.Bookings.Application.Commands.UpdateBooking
             await _bookingRepository.SaveChanges();
 
             await _mediator.Publish(new BookingUpdated(booking));
-            output.Payload = new UpdateBookingResult(booking);
             return output;
         }
     }

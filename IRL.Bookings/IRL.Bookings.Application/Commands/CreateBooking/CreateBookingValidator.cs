@@ -2,7 +2,7 @@
 
 namespace IRL.Bookings.Application.Commands.CreateBooking
 {
-    public class CreateBookingValidator : AbstractValidator<CreateBookingCommand>
+    public class CreateBookingValidator : AbstractValidator<ICreateBookingCommand>
     {
         public CreateBookingValidator()
         {
