@@ -4,6 +4,7 @@ using IRL.Bookings.Application.AutoMapper;
 using IRL.Bookings.Application.Commands.CancelBooking;
 using IRL.Bookings.Application.Commands.CreateBooking;
 using IRL.Bookings.Application.Commands.UpdateBooking;
+using IRL.Bookings.Infra.Cache;
 using IRL.Bookings.Infra.Databases.EntityFramework;
 using IRL.Bookings.Infra.Databases.EntityFramework.Repositories;
 using IRL.Bookings.Infra.Repositories;
@@ -11,6 +12,7 @@ using MediatR;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -65,6 +67,11 @@ namespace IRL.Booking.API
             services.AddScoped<IRoomRepository, EFRoomRepository>();
 
             #endregion DataAccess
+
+            #region Cache
+            services.AddSingleton<MemoryCache>();
+            services.AddScoped<ICache, InMemoryCache>();
+            #endregion
 
             services.AddHealthChecks();
             services.AddApiVersioning();
