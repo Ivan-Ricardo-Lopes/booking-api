@@ -17,6 +17,8 @@ namespace IRL.Bookings.Infra.Repositories
 
         Task Update(BookingDbModel model);
 
+        Task Delete(BookingDbModel model);
+
         Task SaveChanges();
     }
     

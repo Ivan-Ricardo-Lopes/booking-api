@@ -46,12 +46,17 @@ namespace IRL.Bookings.Infra.Databases.EntityFramework.Repositories
         public Task Update(BookingDbModel model)
         {
             _db.Entry(model).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
-            return Task.FromResult(_db.Update(model));
+            return Task.FromResult(_db.Bookings.Update(model));
         }
 
         public async Task SaveChanges()
         {
             await _db.SaveChangesAsync();
+        }
+
+        public Task Delete(BookingDbModel model)
+        {
+            return Task.FromResult(_db.Bookings.Remove(model));
         }
     }
 }
