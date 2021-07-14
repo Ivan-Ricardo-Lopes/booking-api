@@ -13,12 +13,12 @@ namespace IRL.Bookings.Application.Shared
         }
 
         public T Payload { get; set; }
-        public Dictionary<string, string> Errors { get; set; } = new Dictionary<string, string>();
+        public Dictionary<string, List<string>> Errors { get; set; } = new Dictionary<string, List<string>>();
         public bool IsValid => !Errors.Any();
 
         public void AddError(string property, string error)
         {
-            Errors.Add(property, error);
+            //Errors.Add(property, error);
         }
 
         public void AddErrors(ValidationResult validationResult)
@@ -27,7 +27,7 @@ namespace IRL.Bookings.Application.Shared
             {
                 foreach (var item in validationResult.Errors)
                 {
-                    this.Errors.Add(item.PropertyName, item.ErrorMessage);
+                    //this.Errors.Add(item.PropertyName, item.ErrorMessage);
                 }
             }
         }

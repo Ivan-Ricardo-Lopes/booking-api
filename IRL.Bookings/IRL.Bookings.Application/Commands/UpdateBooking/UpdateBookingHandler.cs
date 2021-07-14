@@ -34,42 +34,26 @@ namespace IRL.Bookings.Application.Commands.UpdateBooking
         public async Task<BaseResult<UpdateBookingResult>> Handle(UpdateBookingCommand command, CancellationToken cancellationToken)
         {
             var output = new BaseResult<UpdateBookingResult>();
+            output.AddErrors(_validator.Validate(command));
 
-            #region input fail fast validation
-
-            var inputValidationResult = _validator.Validate(command);
-            output.AddErrors(inputValidationResult);
-
-            if(command.RoomId != null)
-            {
-                if (!await _roomRepository.Exists(command.RoomId.ToString()))
-                    output.AddError("RoomId", $"Room not found. id: {command.RoomId}");
-            }
-            
+            if (!output.IsValid)
+                return output;
 
             var bookingDbModel = await _bookingRepository.GetById(command.Id.ToString());
 
             if (bookingDbModel == null)
+            {
                 output.AddError("Id", $"Booking not found. id: {command.Id}");
-
-            if (!output.IsValid)
                 return output;
-
-            #endregion input fail fast validation
-
-            #region domain validation
-
-            if (await _bookingRepository.ExistsBetweenDates(command.RoomId.ToString(), command.FromDate, command.ToDate))
-                output.AddError("RoomId", "This room is unavailable on this date");
+            }
 
             var booking = _mapper.Map<Booking>(bookingDbModel);
 
-            output.AddErrors(booking.ValidationResult);
-
-            if (!output.IsValid)
+            if (!booking.Valid)
+            {
+                output.AddErrors(booking.ValidationResult);
                 return output;
-
-            #endregion domain validation
+            }
 
             bookingDbModel = _mapper.Map<BookingDbModel>(booking);
             await _bookingRepository.Update(bookingDbModel);
