@@ -14,6 +14,11 @@ This is a booking API for the very last hotel in Cancun.
 
 - Quality of service must be 99.99 to 100% => no downtime
 
+#### Tests
+
+- Unit Tests (not implemented)
+- BDD tests (not implemented)
+
 
 
 
