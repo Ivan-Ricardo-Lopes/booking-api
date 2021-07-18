@@ -5,6 +5,7 @@ using IRL.Bookings.Domain.Bookings.Entities;
 using IRL.Bookings.Infra.DatabaseModels;
 using IRL.Bookings.Infra.Repositories;
 using MediatR;
+using System;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -47,7 +48,11 @@ namespace IRL.Bookings.Application.Commands.UpdateBooking
                 return output;
             }
 
-            var booking = _mapper.Map<Booking>(bookingDbModel);
+            var booking = new Booking(Guid.Parse(bookingDbModel.Id), bookingDbModel.FromDate, bookingDbModel.ToDate, Guid.Parse(bookingDbModel.RoomId), bookingDbModel.CustomerName);
+
+            booking.ModifyDates(command.FromDate, command.ToDate);
+            booking.ChangeCustomer(command.CustomerName);
+            booking.ChangeRoom(command.RoomId);
 
             if (!booking.Valid)
             {

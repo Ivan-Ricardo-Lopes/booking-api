@@ -1,6 +1,6 @@
 ﻿using IRL.Bookings.Infra.DatabaseModels;
 using IRL.Bookings.Infra.Repositories;
-using System;
+using Microsoft.EntityFrameworkCore;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -15,19 +15,11 @@ namespace IRL.Bookings.Infra.Databases.EntityFramework.Repositories
             this._db = db;
         }
 
-        public Task<bool> ExistsBetweenDates(string roomId, DateTime fromDate, DateTime toDate, string notIncludingId = null)
-        {
-            return Task.FromResult(_db.Bookings
-                .Where(x => x.Id != notIncludingId)
-                .Where(x => x.RoomId == roomId)
-                .Any(x => ((fromDate >= x.FromDate && fromDate <= x.ToDate) ||
-                (toDate >= x.FromDate && toDate <= x.ToDate))));
-        }
-
         public Task<IQueryable<BookingDbModel>> GetAll(string roomId = null)
         {
             var result = _db.Bookings
                 .Where(x => roomId != null ? x.RoomId == roomId : true)
+                .AsNoTracking()
                 .AsQueryable();
 
             return Task.FromResult(result);
@@ -35,7 +27,7 @@ namespace IRL.Bookings.Infra.Databases.EntityFramework.Repositories
 
         public async Task<BookingDbModel> GetById(string id)
         {
-            return await _db.Bookings.FindAsync(id);
+            return await _db.Bookings.AsNoTracking().FirstOrDefaultAsync(x => x.Id == id);
         }
 
         public async Task Add(BookingDbModel model)

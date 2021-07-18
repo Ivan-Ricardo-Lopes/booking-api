@@ -10,6 +10,8 @@ namespace IRL.Bookings.Application.Commands.CreateBooking
         public DateTime ToDate { get; private set; }
         public Guid RoomId { get; private set; }
 
+        public string CustomerName { get; set; }
+
         public CreateBookingResult()
         {
         }
@@ -20,6 +22,7 @@ namespace IRL.Bookings.Application.Commands.CreateBooking
             this.FromDate = booking.FromDate;
             this.ToDate = booking.ToDate;
             this.RoomId = booking.RoomId;
+            this.CustomerName = booking.CustomerName;
         }
     }
 }

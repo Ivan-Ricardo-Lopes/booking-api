@@ -61,7 +61,7 @@ namespace IRL.Booking.API
 
             #region DataAccess
 
-            services.AddDbContext<AppDbContext>(options => options.UseInMemoryDatabase("AppDbContext"), ServiceLifetime.Singleton);
+            services.AddDbContext<AppDbContext>(options => options.UseInMemoryDatabase("AppDbContext"), ServiceLifetime.Scoped);
 
             services.AddScoped<IBookingRepository, EFBookingRepository>();
             services.AddScoped<IRoomRepository, EFRoomRepository>();
@@ -70,7 +70,7 @@ namespace IRL.Booking.API
 
             #region Cache
             services.AddSingleton<MemoryCache>();
-            services.AddScoped<ICache, InMemoryCache>();
+            services.AddSingleton<ICache, InMemoryCache>();
             #endregion
 
             services.AddHealthChecks();

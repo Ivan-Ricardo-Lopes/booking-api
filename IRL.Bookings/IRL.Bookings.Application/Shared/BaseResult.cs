@@ -18,7 +18,10 @@ namespace IRL.Bookings.Application.Shared
 
         public void AddError(string property, string error)
         {
-            //Errors.Add(property, error);
+            if (this.Errors.TryGetValue(property, out List<string> value))
+                value.Add(error);
+            else
+                this.Errors.Add(property, new List<string>() { error });
         }
 
         public void AddErrors(ValidationResult validationResult)
@@ -27,7 +30,7 @@ namespace IRL.Bookings.Application.Shared
             {
                 foreach (var item in validationResult.Errors)
                 {
-                    //this.Errors.Add(item.PropertyName, item.ErrorMessage);
+                    AddError(item.PropertyName, item.ErrorMessage);
                 }
             }
         }

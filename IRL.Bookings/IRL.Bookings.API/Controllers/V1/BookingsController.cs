@@ -49,7 +49,7 @@ namespace IRL.Booking.API.Controllers.V1
                 return Ok(output.Payload);
             }
 
-            return BadRequest(output.Errors);
+            return BadRequest(new { errors = output.Errors });
         }
 
         /// <summary>
@@ -70,7 +70,7 @@ namespace IRL.Booking.API.Controllers.V1
 
             if (output.IsValid)
             {
-                return new ObjectResult(output.Payload) { StatusCode = StatusCodes.Status201Created };                
+                return new ObjectResult(output.Payload) { StatusCode = StatusCodes.Status201Created };
             }
 
             return BadRequest(new { errors = output.Errors });
@@ -99,7 +99,7 @@ namespace IRL.Booking.API.Controllers.V1
                 return NoContent();
             }
 
-            return BadRequest(output.Payload);
+            return BadRequest(new { errors = output.Errors });
         }
 
         /// <summary>
@@ -117,14 +117,14 @@ namespace IRL.Booking.API.Controllers.V1
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> Cancel([FromRoute] Guid id, CancellationToken cancellationToken)
         {
-            var output = await _mediator.Send(new CancelBookingCommand() {Id = id }, cancellationToken);
+            var output = await _mediator.Send(new CancelBookingCommand() { Id = id }, cancellationToken);
 
             if (output.IsValid)
             {
                 return NoContent();
             }
 
-            return BadRequest(output.Errors);
+            return BadRequest(new { errors = output.Errors });
         }
     }
 }

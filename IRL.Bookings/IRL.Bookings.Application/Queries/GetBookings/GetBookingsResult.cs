@@ -14,5 +14,6 @@ namespace IRL.Bookings.Application.Queries.GetBookings
         public DateTime FromDate { get; set; }
         public DateTime ToDate { get; set; }
         public Guid RoomId { get; set; }
+        public string CustomerName { get; set; }
     }
 }
